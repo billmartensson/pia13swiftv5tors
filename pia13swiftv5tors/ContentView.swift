@@ -11,7 +11,6 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     
-    @Query(sort: \Recipe.title) var recipies: [Recipe]
     
     @State var currentCat = ""
 
@@ -25,7 +24,7 @@ struct ContentView: View {
         
         NavigationStack {
             VStack {
-                NavigationLink(destination: EditRecipeView()) {
+                NavigationLink(destination: EditRecipeView(isAdd: true)) {
                     Text("Add")
                 }
                 
@@ -57,12 +56,9 @@ struct ContentView: View {
 
                 }
                 
-                List(recipies) { rec in
-                    NavigationLink(destination: ViewRecipeView(currentRecipe: rec)) {
-                        Text(rec.title)
-
-                    }
-                }
+                RecipeListView(cat: currentCat)
+                
+                
             }
         }
         

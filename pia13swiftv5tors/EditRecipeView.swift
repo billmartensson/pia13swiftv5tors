@@ -12,10 +12,16 @@ struct EditRecipeView: View {
     @Environment(\.dismiss) var dismiss
     
     @State var currentRecipe = Recipe()
-        
+    
+    @State var isAdd = false
+    
     var body: some View {
         VStack {
-            Text("Edit")
+            if isAdd {
+                Text("Add")
+            } else {
+                Text("Edit")
+            }
 
             Text("Category")
             HStack {
@@ -50,7 +56,16 @@ struct EditRecipeView: View {
             Button(action: {
                 saveRecipe()
             }) {
-                Text("Save")
+                Text(isAdd ? "Add" : "Save")
+            }
+            
+            if isAdd == false {
+                Button(action: {
+                    modelContext.delete(currentRecipe)
+                    dismiss()
+                }) {
+                    Text("Delete")
+                }
             }
         }
     }
@@ -60,6 +75,8 @@ struct EditRecipeView: View {
             // VISA FEL
             return
         }
+        
+        
         modelContext.insert(currentRecipe)
         dismiss()
     }
